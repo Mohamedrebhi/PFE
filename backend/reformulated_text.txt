@@ -1,0 +1,99 @@
+## Nidhal Derwich - Curriculum Vitae
+
+**Contact**
+
+* Email: nidhalderwich@gmail.com
+* Phone: +216 99 263 319
+* LinkedIn: @nidhal-derwich-480449260 
+* Twitter: @DerwichNidhal
+
+**Summary**
+
+Experienced Android application developer with a strong understanding of software development, design, and database management. Proficient in Machine Learning programming with Python, utilizing advanced techniques and libraries like TensorFlow and scikit-learn. Proven ability to manage stress effectively, ensuring high performance in both Android development and Python-based Machine Learning projects. Dedicated to continuous improvement and achieving successful project implementation.
+
+**Strengths**
+
+* Strong leadership qualities (note: can be perceived as overly assertive)
+* Detail-oriented and results-driven with a strong work ethic
+* Creative problem-solver with a passion for technology and innovation
+
+**Areas for Development**
+
+* Working on delegating tasks and fostering collaboration within a team
+* Finding a balance between perfectionism and efficient time management
+
+**Languages**
+
+* **English:** Professional working proficiency
+* **French:** Limited working proficiency
+
+**Skills**
+
+**Programming Languages:** Java, C++, Python
+
+**Frameworks:** Flutter, SpringBoot, Flask
+
+**Tools & Technologies:**
+
+* Android Studio with Flutter plugin
+* Visual Studio Code
+* Jupyter Notebook
+* Eclipse
+* NetBeans
+* PyCharm
+* Kubernetes (K8s)
+* UML Design
+* Database Design
+* Enterprise Architect
+
+**Education**
+
+* **Bachelor of Science in Computer Science** (September 2022 - Present)
+    * Higher Institute of Computer Science and Management, Tunis, Kairouan
+
+**Certifications & Courses**
+
+* **Cryptography I** (October 2022 - February 2023)
+    * Stanford University (Online)
+    * Focus: Integrating encryption programs and algorithms into computer projects and systems.
+* **ML for Business Managers: Build Regression model in R Studio** (May 2022 - July 2023)
+    * Start-Tech Academy India
+    * Focus: Applying regression models to solve business challenges.
+* **Flutter & Dart** (August 2023 - Present)
+    * Udemy (Online)
+    * Focus: Expanding mobile programming skills to iOS and web environments.
+* **Google Cloud Fundamentals: Core Infrastructure** (September 2023 - Present)
+    * Google Cloud (Online)
+    * Focus: Utilizing cloud services to provide a practical environment for projects.
+
+**Professional Experience**
+
+**Freelance Data Analyst and Machine Learning Developer** (December 2023 - Present)
+* Kairouan, Tunisia
+* Designed and developed a chatbot project using Python, incorporating NLP techniques, to create a high-performing web application.
+* Led the development of a custom 'Large Language Model' using key Python libraries, specifically focusing on integrating Pylzma and PyTorch.
+
+**Freelance Cybersecurity Analyst** (January 2022 - December 2022)
+* Tunis, Tunisia
+* Developed a Keylogger project to understand malware risks and enhance cybersecurity knowledge.
+
+**Project Manager** (October 2023 - December 2023)
+* ISIGK, Kairouan, Tunisia
+* Led a team of five developers on a school mobile application project involving machine learning integration for facial recognition.
+
+**Web Developer** (October 2022 - May 2023)
+* Nun, Tunis, Tunisia
+* Created a buying and selling platform to simplify e-commerce access for non-specialists.
+
+**Mobile Developer** (February 2023 - November 2023)
+* Nun, Tunis, Tunisia
+* Developed a module for an Android project addressing USSD code processing.
+* Created an Android project focusing on smoking addiction awareness.
+* Designed a messaging application to enhance communication protocols on Android.
+
+**Interests**
+
+* Reading (specifically in social sciences)
+* Movies and TV shows (particularly medieval period)
+
+This revised format presents the information in a clear and concise manner, highlighting Nidhal's skills and experience while also addressing areas for potential growth. It follows a traditional resume structure, making it easily digestible for potential employers. 

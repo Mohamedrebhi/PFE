@@ -1,0 +1,73 @@
+
+.teacher-form-container {
+    width: 50%;
+    margin: 0 auto;
+}
+
+.teacher-form {
+    display: flex;
+    flex-direction: column;
+   
+}
+
+.student-form-container {
+    width: 50%;
+    margin: 0 auto;
+}
+
+.student-form {
+    display: flex;
+    flex-direction: column;
+}
+.departement-form-container {
+    width: 50%;
+    margin: 0 auto;
+}
+
+.departement-form {
+    display: flex;
+    flex-direction: column;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: bold;
+}
+
+input{
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px; 
+
+}
+textarea{
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px; 
+
+}
+select{
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+button {
+    padding: 8px 20px;
+    background-color: #60dcef;
+    color: #fff;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    margin-right: 5px; 
+}
+
+button:hover {
+    background-color: #0056b3;
+}

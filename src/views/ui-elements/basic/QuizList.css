@@ -1,0 +1,39 @@
+.quiz-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.quiz-question {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.quiz-info {
+    color: #666;
+    font-size: 14px;
+}
+
+.quiz-answers {
+    margin-top: 10px;
+}
+
+.quiz-answers li {
+    list-style-type: none;
+    margin-bottom: 5px;
+}
+
+.quiz-answers li::before {
+    content: '•';
+    color: #666;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+
+.quiz-answers li:last-child {
+    margin-bottom: 0;
+}

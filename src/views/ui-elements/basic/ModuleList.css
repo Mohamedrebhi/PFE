@@ -1,0 +1,43 @@
+.teacher-courses {
+    padding: 20px; /* Ajout d'un espace intérieur */
+    background-color: #f5f5f5; /* Couleur de fond douce */
+    border: 1px solid #ddd; /* Bordure légère */
+    border-radius: 8px; /* Coins arrondis pour le conteneur */
+    max-width: 600px; /* Largeur maximale */
+    margin: 20px auto; /* Centrage horizontal */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Légère ombre */
+  }
+  
+  .teacher-courses h3 {
+    font-size: 1.5rem; /* Taille du texte du titre */
+    color: #333; /* Couleur du texte */
+    margin-bottom: 15px; /* Espace sous le titre */
+    border-bottom: 2px solid #ddd; /* Bordure sous le titre */
+    padding-bottom: 10px; /* Espace intérieur sous le titre */
+  }
+  
+  .teacher-courses p {
+    font-style: italic; /* Style en italique pour le texte */
+    color: #666; /* Couleur du texte pour les messages d'erreur ou de chargement */
+    text-align: center; /* Centrage du texte */
+  }
+  
+  .teacher-courses ul {
+    list-style-type: none; /* Supprimer les puces des éléments de liste */
+    padding: 0; /* Pas d'espace intérieur */
+    margin: 0; /* Pas d'espace extérieur */
+  }
+  
+  .teacher-courses ul li {
+    background-color: #e0e0e0; /* Couleur de fond pour les éléments de liste */
+    border: 1px solid #ccc; /* Bordure légère */
+    border-radius: 5px; /* Coins arrondis pour chaque élément de liste */
+    padding: 10px; /* Espace intérieur pour chaque élément de liste */
+    margin-bottom: 10px; /* Espace entre les éléments de liste */
+    transition: background-color 0.3s ease; /* Effet de transition pour le survol */
+  }
+  
+  .teacher-courses ul li:hover {
+    background-color: #d0d0d0; /* Couleur de fond lors du survol */
+  }
+  

@@ -1,0 +1,45 @@
+/* lock-screen.css */
+
+.lock-screen {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    text-align: center;
+  }
+  
+  .lock-screen h2 {
+    margin-top: 0;
+  }
+  
+  .lock-screen img.profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+  }
+  
+  .lock-screen input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .lock-screen button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .lock-screen button:hover {
+    background-color: #0056b3;
+  }
+  
+  .lock-screen .error-message {
+    color: red;
+    margin-bottom: 10px;
+  }

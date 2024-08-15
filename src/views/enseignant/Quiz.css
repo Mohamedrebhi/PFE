@@ -1,0 +1,59 @@
+/* QuizList Container */
+.quiz-list-container {
+    padding: 20px;
+}
+
+/* Quiz List */
+.quiz-list {
+    list-style: none;
+    padding: 0;
+}
+
+/* Quiz Item */
+.quiz-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    padding: 15px 0;
+}
+
+/* Quiz Details */
+.quiz-details {
+    flex: 1;
+}
+
+.quiz-question {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.quiz-info {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 3px;
+}
+
+/* Quiz Actions */
+.quiz-actions {
+    display: flex;
+    align-items: center;
+}
+
+/* Action Buttons */
+.buttons button {
+    margin-right: 10px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.buttons button.delete-btn {
+    color: #ff0000;
+}
+
+.buttons button.edit-btn {
+    color: #007bff;
+}

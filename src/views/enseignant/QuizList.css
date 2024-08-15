@@ -1,0 +1,102 @@
+.quiz-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.quiz-question {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.quiz-info {
+    color: #666;
+    font-size: 14px;
+}
+
+.quiz-answers {
+    margin-top: 10px;
+}
+
+.quiz-answers li {
+    list-style-type: none;
+    margin-bottom: 5px;
+}
+
+.quiz-answers li::before {
+    content: '•';
+    color: #666;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+
+.quiz-answers li:last-child {
+    margin-bottom: 0;
+}
+.button {
+    cursor: pointer;
+    border: none;
+    background-color: #4CAF50; /* Couleur de fond */
+    color: white; /* Couleur du texte */
+    padding: 10px 20px; /* Espacement intérieur */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    border-radius: 8px; /* Coins arrondis */
+}
+
+
+/* Style du bouton de suppression */
+.delete-btn {
+    background-color: #2196F3; /* Couleur de fond */
+}
+
+/* Style du bouton d'édition */
+.edit-btn {
+    background-color: #2196F3; /* Couleur de fond */
+}
+
+.calculate-btn {
+    background-color: #45a049; /* Couleur de fond */
+    color: white;/* Couleur du texte */
+    padding: 8px 30px;
+}
+
+/* QuizList.css */
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  
+  .search-bar input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-right: 10px;
+    margin-left: 35px;
+    width: 900px;
+  }
+  
+  .search-bar button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 8px 15px;
+  }
+  
+  .search-bar button:hover {
+    background-color: #0056b3;
+  }
+  

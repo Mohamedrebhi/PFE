@@ -1,0 +1,192 @@
+.teacher-list-container {
+    width: 100%;
+    padding: 0; 
+}
+
+.teacher-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.teacher-table th, .teacher-table td {
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+.teacher-table th {
+    background-color: #f2f2f2;
+}
+
+.student-list-container {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.student-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.student-table th, .student-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+.student-table th {
+    background-color: #f2f2f2;
+}
+.Department-list-container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.Department-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.Department-table th, .Department-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+.Department-table th {
+    background-color: #f2f2f2;
+}
+.profile-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+button {
+    padding: 10px 10px;
+    background-color: #0be2f1;
+    color: #1b1518;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px; 
+}
+
+.confirmation-message-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    z-index: 9999;
+}
+
+.confirmation-message-container p {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.confirmation-message-container .button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.confirmation-message-container button {
+    background-color: #13cec4;
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.confirmation-message-container button:hover {
+    background-color: #13cec4;
+}
+
+.confirmation-message-container button + button {
+    margin-left: 110px;
+    align-items: center;
+}
+.success-message-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    z-index: 9999;
+}
+
+.success-message-container p {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.success-message-container .button-container {
+    display: flex;
+    justify-content: center; /* Centre horizontalement */
+    align-items: center; /* Centre verticalement */
+    height: 100%;
+}
+
+.success-message-container button {
+    background-color: #13cec4;
+    color: #ffffff;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.success-message-container button:hover {
+    background-color: #0ca99c; /* Couleur légèrement différente pour l'effet hover */
+}
+.link-button {
+    background-color: transparent;
+    border: none;
+    color: black;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  
+  .link-button:hover {
+    color: black;
+  }
+
+  .search-container {
+    margin-bottom: 20px;
+    margin-left: 10px;
+  }
+  
+  .search-input {
+    padding: 10px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 900px; /* Ajustez la largeur selon vos préférences */
+    font-size: 16px;
+  }
+  
+  .search-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .search-button:hover {
+    background-color: #0056b3;
+  }
+
+
+
+
+

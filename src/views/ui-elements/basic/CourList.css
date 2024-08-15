@@ -1,0 +1,40 @@
+.educational-platform {
+    text-align: center;
+  }
+  
+  .courses-list {
+    display: flex;
+    flex-wrap: wrap;
+   
+  }
+  
+  .course {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 250px;
+  }
+  
+  .course h3 {
+    font-size: 19px;
+    margin-bottom: 100px;
+  }
+  .course h6 {
+    font-size: 1.1em; /* Taille de police légèrement plus grande */
+    font-family: 'Courier New', Courier, monospace; /* Police de type monospace */
+}
+  
+  .course a {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #67c8d2;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+  }
+  
+  .course a:hover {
+    background-color: #0056b3;
+  }
+  
