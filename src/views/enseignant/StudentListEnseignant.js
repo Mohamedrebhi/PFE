@@ -27,68 +27,71 @@ const StudentList = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredEtudiants, setFilteredEtudiants] = useState([]);
     const [showConfirmation, setShowConfirmation] = useState(false);
-    const [etudiantToDelete, setStudentToDelete] = useState(null);
+    const [etudiantToDelete, setEtudiantToDelete] = useState(null);
 
     useEffect(() => {
         fetchEtudiant();
     }, []);
 
     useEffect(() => {
-        handleSearch(); // Perform search when searchTerm changes
+        handleSearch();
     }, [searchTerm]);
 
     const fetchEtudiant = async () => {
         try {
             const response = await axios.get('http://localhost:600/Apprenants');
             setEtudiant(response.data);
-            setFilteredEtudiants(response.data); // Initialize filtered students with all students
+            setFilteredEtudiants(response.data);
         } catch (error) {
-            console.error('Error fetching Etudiant:', error);
-        }
-    };
-
-    const handleDeleteEtudiant = async () => {
-        if (!etudiantToDelete) return;
-    
-        try {
-            const response = await fetch(`http://localhost:5000/Apprenants/${etudiantToDelete._id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-    
-            if (!response.ok) {
-                throw new Error(`Error deleting student: ${response.statusText}`);
-            }
-    
-            // If successful, update the state of students
-            setEtudiant(Etudiant.filter(etudiant => etudiant.StudentID !== etudiantToDelete.StudentID));
-            setShowConfirmation(false);
-            setStudentToDelete(null);
-        } catch (error) {
-            console.error('Error deleting etudiant:', error);
+            console.error('Error fetching students:', error);
         }
     };
 
     const handleDeleteConfirmation = (etudiant) => {
-        setStudentToDelete(etudiant);
+        setEtudiantToDelete(etudiant);
         setShowConfirmation(true);
     };
 
     const handleCancelConfirmation = () => {
         setShowConfirmation(false);
-        setStudentToDelete(null);
+        setEtudiantToDelete(null);
+    };
+
+    const handleConfirmDelete = async () => {
+        if (!etudiantToDelete || !etudiantToDelete.StudentID) {
+            console.error('No student selected for deletion.');
+            return;
+        }
+
+        setShowConfirmation(false);
+
+        try {
+            const response = await axios.delete(`http://localhost:600/Apprenants/${etudiantToDelete.StudentID}`);
+            if (response.status === 200) {
+                setEtudiant(prevEtudiants =>
+                    prevEtudiants.filter(etudiant => etudiant.StudentID !== etudiantToDelete.StudentID)
+                );
+                setFilteredEtudiants(prevFiltered =>
+                    prevFiltered.filter(etudiant => etudiant.StudentID !== etudiantToDelete.StudentID)
+                );
+            } else {
+                console.error('Failed to delete student:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Error during deletion:', error.message);
+        }
+
+        setEtudiantToDelete(null);
     };
 
     const handleSearch = () => {
         const searchTermLowerCase = searchTerm.toLowerCase();
-        
-        const filteredResults = Etudiant.filter(etudiant => {
-            const fullName = typeof etudiant.username === 'string' ? etudiant.username.toLowerCase() : '';
+
+        const filteredResults = Etudiant.filter((etudiant) => {
+            const fullName = etudiant.username?.toLowerCase() || '';
             return fullName.includes(searchTermLowerCase);
         });
-    
+
         setFilteredEtudiants(filteredResults);
     };
 
@@ -122,8 +125,8 @@ const StudentList = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {filteredEtudiants.map(etudiant => (
-                                    <tr key={etudiant.id}>
+                                {filteredEtudiants.map((etudiant) => (
+                                    <tr key={etudiant.StudentID}>
                                         <td>{etudiant.StudentID}</td>
                                         <td>{etudiant.username}</td>
                                         <td>{etudiant.email}</td>
@@ -144,7 +147,7 @@ const StudentList = () => {
             {showConfirmation && (
                 <ConfirmationModal
                     message="Are you sure you want to delete this student?"
-                    onConfirm={handleDeleteEtudiant}
+                    onConfirm={handleConfirmDelete}
                     onCancel={handleCancelConfirmation}
                 />
             )}
@@ -153,3 +156,4 @@ const StudentList = () => {
 };
 
 export default StudentList;
+        

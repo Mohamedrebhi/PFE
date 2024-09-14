@@ -1,17 +1,22 @@
-from flask import Flask, request, jsonify
+
 from pymongo import MongoClient
-from flask_cors import CORS
 from bson import ObjectId
-import random
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+
+
+
+
 
 app = Flask(__name__)
 CORS(app)
 
+# MongoDB setup
 client = MongoClient('mongodb://localhost:27017/')
 db = client['Users']
 collection = db['Quiz']
 collection1 = db['Cours']
-collection2 = db['Chapters']
+collection2 = db['chapitres']
 
 @app.route('/')
 def home():
@@ -26,22 +31,14 @@ def afficher_tous_quizzes():
 
 @app.route('/quizzes/<quiz_id>', methods=['GET'])
 def get_quiz_by_id(quiz_id):
-    print(f"Received quiz_id: {quiz_id}")  # Debugging line
-
-    # Check if quiz_id is a 24-character hex string
-    if len(quiz_id) != 24 or not all(c in '0123456789abcdefABCDEF' for c in quiz_id):
-        print(f"Invalid quiz_id format: {quiz_id}")  # Debugging line
-        return jsonify({"message": "Invalid quiz ID format"}), 400
-
     try:
-        quiz_id = ObjectId(quiz_id)  # Convert to ObjectId
+        quiz_id = ObjectId(quiz_id)
     except Exception as e:
-        print(f"Error converting quiz_id: {e}")  # Debugging line
         return jsonify({"message": "Invalid quiz ID format"}), 400
 
     quiz = collection.find_one({'_id': quiz_id})
     if quiz:
-        quiz['_id'] = str(quiz['_id'])  # Convert ObjectId to string for JSON serialization
+        quiz['_id'] = str(quiz['_id'])
         return jsonify(quiz), 200
     else:
         return jsonify({"message": "Quiz not found"}), 404
@@ -93,115 +90,86 @@ def get_false_percentage(id):
             return jsonify({"error": "Quiz not found"}), 404
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+@app.route('/quizzes/update/<quiz_id>', methods=['PUT'])
+def update_quiz(quiz_id):
+    data = request.get_json()
+    print(f"Received data: {data}")  # Log received data
+
+    if not data:
+        return jsonify({"message": "No data provided"}), 400
+
+    # Ensure all required fields are present
+    required_fields = ['question', 'responses', 'correct_response', 'chaptername']
+    for field in required_fields:
+        if field not in data:
+            return jsonify({'message': f'Field {field} is required.'}), 400
+
+    try:
+        result = collection.update_one({'_id': ObjectId(quiz_id)}, {'$set': data})
+        print(f"Update result: {result.modified_count}")  # Log update result
+        if result.modified_count > 0:
+            return jsonify({"message": "Quiz updated successfully"}), 200
+        else:
+            return jsonify({"message": "Quiz not found or no changes made"}), 404
+    except Exception as e:
+        print(f"Error updating quiz: {e}")
+        return jsonify({"message": "An error occurred while updating the quiz"}), 500
+
 
 @app.route('/quizzes/random/<int:number>', methods=['GET'])
 def get_random_quizzes(number):
-    quizzes = list(collection.find())
+    quizzes = list(collection.aggregate([{'$sample': {'size': number}}]))
     for quiz in quizzes:
         quiz['_id'] = str(quiz['_id'])
-    random_quizzes = random.sample(quizzes, min(number, len(quizzes)))
-    return jsonify(random_quizzes)
+    return jsonify(quizzes), 200
 
-@app.route('/quizzes/submit', methods=['POST'])
-def submit_quiz():
-    try:
-        submitted_answers = request.json
-        correct_answers_count = 0
-        incorrect_answers = []
-
-        for submitted_answer in submitted_answers:
-            quiz_id = submitted_answer['id']
-            submitted_response = submitted_answer['response']
-
-            # Ensure quiz_id is in valid ObjectId format
-            if len(quiz_id) != 24 or not all(c in '0123456789abcdefABCDEF' for c in quiz_id):
-                return jsonify({"message": "Invalid quiz ID format"}), 400
-
-            try:
-                quiz = collection.find_one({'_id': ObjectId(quiz_id)})
-            except Exception as e:
-                return jsonify({"message": f"Error querying quiz: {str(e)}"}), 500
-
-            if quiz:
-                if submitted_response == quiz.get('Reponse_correcte'):
-                    correct_answers_count += 1
-                    collection.update_one({'_id': ObjectId(quiz_id)}, {'$inc': {'Nb_reponses_vraies': 1}})
-                else:
-                    collection.update_one({'_id': ObjectId(quiz_id)}, {'$inc': {'Nb_reponses_fausses': 1}})
-                    incorrect_answers.append({
-                        'id': quiz_id,
-                        'question': quiz.get('Question'),
-                        'submitted_response': submitted_response,
-                    })
-            else:
-                return jsonify({"message": f"Quiz with ID {quiz_id} not found"}), 404
-
-        return jsonify({
-            'correct_answers_count': correct_answers_count,
-            'incorrect_answers': incorrect_answers
-        })
-    except Exception as e:
-        return jsonify({"message": f"Internal server error: {str(e)}"}), 500
-
-def convert_object_ids(data):
-    if isinstance(data, list):
-        for item in data:
-            if '_id' in item:
-                item['_id'] = str(item['_id'])
-    elif isinstance(data, dict):
-        if '_id' in data:
-            data['_id'] = str(data['_id'])
-    return data
-
-@app.route('/Cours/Professor/<int:ProfessorID>', methods=['GET'])
-def get_cours_by_professor(ProfessorID):
-    try:
-        cours = list(collection1.find({"ProfessorID": ProfessorID}))
-        cours = convert_object_ids(cours)
-        if cours:
-            return jsonify(cours)
-        else:
-            return jsonify({'message': 'Cours non trouvé'}), 404
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
-@app.route('/Modules/<int:CourseID>', methods=['GET'])
-def get_module(CourseID):
-    modules = list(collection2.find({"CourseID": CourseID}))
-    if modules:
-        for module in modules:
-            module['_id'] = str(module['_id'])
-        return jsonify(modules)
+@app.route('/search_quizzes', methods=['GET'])
+def search_quizzes():
+    chaptername = request.args.get('chaptername')
+    if chaptername:
+        quizzes = collection.find({'chaptername': {'$regex': chaptername, '$options': 'i'}})
     else:
-        return jsonify({'message': 'module non trouvé'}), 404
+        quizzes = collection.find({})
 
-@app.route('/cours/<int:course_id>/chapitres', methods=['GET'])
-def get_chapitres_by_course(course_id):
-    chapitres = collection2.find({'CourseID': course_id})
-    chapitres_list = [chapitre for chapitre in chapitres]
-    for chapitre in chapitres_list:
-        chapitre['_id'] = str(chapitre['_id'])
-    return jsonify(chapitres_list)
-
-@app.route('/cours', methods=['GET'])
-def get_courses():
-    courses = collection1.find()
-    cours_list = []
-    for course in courses:
-        cours_list.append({
-            'CourseID': course['CourseID'],
-            'Name': course['Name'],
-            'Description': course['Description'],
-            'Price': course['Price']
+    quizzes_list = []
+    for quiz in quizzes:
+        quizzes_list.append({
+            '_id': str(quiz['_id']),
+            'question': quiz.get('question', ''),
+            'responses': quiz.get('responses', []),
+            'correct_response': quiz.get('correct_response', ''),
+            'chaptername': quiz.get('chaptername', '')
         })
-    return jsonify(cours_list)
+    return jsonify(quizzes_list)
 
-@app.route('/chapitres', methods=['GET'])
-def get_all_chapters():
-    chapters = list(collection2.find())
-    for chapter in chapters:
-        chapter['_id'] = str(chapter['_id'])
-    return jsonify(chapters)
+
+@app.route('/save_quizzes', methods=['POST'])
+def save_quiz():
+    try:
+        data = request.json
+        
+        # Ensure the required fields are present
+        required_fields = ['question', 'responses', 'correct_response', 'chaptername']
+        for field in required_fields:
+            if field not in data or not data[field]:
+                return jsonify({'message': f'Field {field} is required.'}), 400
+        
+        # Create the quiz document to be saved
+        quiz_document = {
+            'question': data['question'],
+            'responses': data['responses'],
+            'correct_response': data['correct_response'],
+            'chaptername': data['chaptername']
+            
+        }
+        
+        # Insert the quiz into the collection
+        result = collection.insert_one(quiz_document)
+        return jsonify({'message': 'Quiz saved successfully', 'quiz_id': str(result.inserted_id)}), 201
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
+
+
 
 if __name__ == '__main__':
-    app.run(debug=True, port=1050)
+    app.run(debug=True , port=1050)

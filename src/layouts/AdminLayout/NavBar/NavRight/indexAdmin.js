@@ -50,6 +50,8 @@ const NavRight = () => {
     );
   };
 
+  
+
   const clearAllNotifications = () => {
     setNotifications([]); // Effacer toutes les notifications
   };
@@ -85,44 +87,11 @@ const NavRight = () => {
               <i className="feather icon-bell icon" />
             </Dropdown.Toggle>
             <Dropdown.Menu align="end" className="notification notification-scroll">
-              <div className="noti-head">
-                <h6 className="d-inline-block m-b-0">Notifications</h6>
-                <div className="float-end">
-                  <Link to="#" onClick={markAllAsRead} className="me-2">
-                    mark as read
-                  </Link>
-                  <Link to="#" onClick={clearAllNotifications}>clear all</Link>
-                </div>
-              </div>
+              
               <PerfectScrollbar>
                 <ListGroup as="ul" bsPrefix=" " variant="flush" className="noti-body">
-                  <ListGroup.Item as="li" bsPrefix=" " className="n-title">
-                    <p className="m-b-0">NEW</p>
-                  </ListGroup.Item>
-                    {notifications.map((notification) => (
-                    <ListGroup.Item
-                      key={notification.id}
-                      as="li"
-                      className={`notification ${notification.isRead ? 'read' : ''}`}
-                    >{<ListGroup.Item as="li" bsPrefix=" " className="notification">
-                       <Card
-                         className="d-flex align-items-center shadow-none mb-0 p-0"
-                         style={{ flexDirection: 'row', backgroundColor: 'unset' }}
-                       ><img className="img-radius" src={avatar1} alt="Generic placeholder" />
-                         <Card.Body className="p-0">
-                           <p>
-                             <strong>John Doe</strong>
-                             <span className="n-time text-muted">
-                               <i className="icon feather icon-clock me-2" />
-                               30 min
-                             </span>
-                           </p>
-                           <p>New ticket Added</p>
-                         </Card.Body>
-                       </Card>
-                     </ListGroup.Item>}
-                    </ListGroup.Item>
-                  ))}
+                  
+                  
                   <ListGroup.Item as="li" bsPrefix=" " className="n-title">
                     <p className="m-b-0">EARLIER</p>
                   </ListGroup.Item>
@@ -164,18 +133,18 @@ const NavRight = () => {
           </Dropdown>
         </ListGroup.Item>
         <ListGroup.Item as="li" bsPrefix=" ">
-          <Dropdown align="start" className="drp-user">
-            <Dropdown.Toggle as={Link} variant="link" to="#" id="dropdown-basic">
-              <i className="icon feather icon-settings" />
-            </Dropdown.Toggle>
-            <Dropdown.Menu align="end" className="profile-notification">
-              <div className="pro-head">
-                <img src={avatar1} className="img-radius" alt="User Profile" />
-                <span>John Doe</span>
-                <Link to="#" className="dud-logout" title="Logout">
-                  <i className="feather icon-log-out" />
-                </Link>
-              </div>
+  <Dropdown align="start" className="drp-user">
+    <Dropdown.Toggle as={Link} variant="link" to="#" id="dropdown-basic">
+      <i className="icon feather icon-settings" />
+    </Dropdown.Toggle>
+    <Dropdown.Menu align="end" className="profile-notification">
+      <div className="pro-head">
+        <img src={avatar1} className="img-radius" alt="User Profile" />
+        <span>mohamed</span>
+        <Link to="/home" className="dud-logout" title="Logout">
+          <i className="feather icon-log-out" />
+        </Link>
+      </div>
               <ListGroup as="ul" bsPrefix=" " variant="flush" className="pro-body">
                 <ListGroup.Item as="li" bsPrefix=" ">
                   <a href="/setting.js" className="dropdown-item">
@@ -198,7 +167,7 @@ const NavRight = () => {
                   </Link>
                 </ListGroup.Item>
                 <ListGroup.Item as="li" bsPrefix=" ">
-                  <Link to="#" className="dropdown-item">
+                  <Link to="/home" className="dropdown-item">
                     <i className="feather icon-log-out" /> Logout
                   </Link>
                 </ListGroup.Item>

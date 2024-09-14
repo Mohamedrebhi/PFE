@@ -221,6 +221,11 @@ const routes = [
         exact: true,
         path: '/admin/Lock',
         element: lazy(() => import('./layouts/AdminLayout/NavBar/NavRight/Lock.js'))
+      },
+      {
+        exact: true,
+        path: '/admin/logout',
+        element: lazy(() => import('./views/landing-page/Home'))
       }
     ]
   },
@@ -374,6 +379,11 @@ const routes = [
         exact: true,
         path: '/etudiant/quiz',
         element: lazy(() => import('./views/dashboard/passerquiz.js'))
+      },
+      {
+        exact: true,
+        path: '/etudiant/chapterList',
+        element: lazy(() => import('./views/dashboard/chapitreslist.js'))
       }
     ]
   },

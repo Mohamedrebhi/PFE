@@ -1,0 +1,17 @@
+/* styles.css */
+body {
+    background-color: #ffffff; /* White background */
+}
+
+.sidebar .sidebar-content {
+    background-color: #ffffff; /* White background for sidebar */
+}
+
+.stButton > button {
+    background-color: #007bff; /* Blue background for buttons */
+    color: white;
+}
+
+.stButton > button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}

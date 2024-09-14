@@ -1,51 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './chapter.css';
 
 const ChapitreAdd = () => {
-  const [chapitre, setChapitre] = useState('chap1'); // Nom de chapitre par défaut
+  const [chapitre, setChapitre] = useState(''); // Default chapter name
   const [recommendation, setRecommendation] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  useEffect(() => {
-    if (chapitre) {
-      handleCheckConditions();
-    }
-  }, [chapitre]);
-
-  const handleCheckConditions = async () => {
-    try {
-      const response = await fetch('http://localhost:4002/check_conditions', {
-        method: 'POST',
-        body: JSON.stringify({ chapitre }),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        if (data.should_reformulate) {
-          handleGetReformulation();
-        } else {
-          setErrorMessage('Conditions not met for reformulation');
-          setRecommendation('');
-        }
-      } else {
-        const errorData = await response.json();
-        setErrorMessage(errorData.error);
-        setRecommendation('');
-      }
-    } catch (error) {
-      setErrorMessage('Error checking conditions: ' + error.message);
-      setRecommendation('');
-      console.error('Error checking conditions:', error);
-    }
-  };
-
   const handleGetReformulation = async () => {
     try {
-      const response = await fetch('http://localhost:4002/get_reformulation', {
-        method: 'GET'
+      const response = await fetch(`http://localhost:4002/get_reformulation/${chapitre}`, {
+        method: 'GET',
       });
 
       if (response.ok) {
@@ -70,6 +34,10 @@ const ChapitreAdd = () => {
     setErrorMessage('');
   };
 
+  const handleMakeItEasier = () => {
+    handleGetReformulation();
+  };
+
   return (
     <div className="container">
       <h4>Recommandation de Chapitre</h4>
@@ -88,6 +56,9 @@ const ChapitreAdd = () => {
           style={{ width: '100%', height: '200px', resize: 'vertical' }}
         />
       </div>
+      <button className="btn btn-primary" onClick={handleMakeItEasier}>
+        Make it Easier
+      </button>
     </div>
   );
 };

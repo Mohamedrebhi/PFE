@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './QuizList.css';
 
+
 const QuizList = () => {
     const [quizzes, setQuizzes] = useState([]);
     const [falsePercentages, setFalsePercentages] = useState({});
@@ -22,7 +23,7 @@ const QuizList = () => {
         // Filter quizzes based on searchChapter whenever it changes
         const searchLowerCase = searchChapter.toLowerCase();
         const filtered = quizzes.filter(quiz => {
-            const chapter = quiz.Chapitre || ''; // Ensure Chapitre is defined
+            const chapter = quiz.chapitrename || ''; // Ensure Chapitre is defined
             return chapter.toLowerCase().includes(searchLowerCase);
         });
         setFilteredQuizzes(filtered);
@@ -84,20 +85,15 @@ const QuizList = () => {
             <ul className="quiz-content">
                 {filteredQuizzes.map((quiz, index) => (
                     <div key={index} className="quiz-card">
-                        <h3 className="quiz-question">Quiz Subject: {quiz.Subject}</h3>
-                        <p className="quiz-question">Question: {quiz.Question}</p>
-                        <p className="quiz-info">Answers: {quiz.Reponses ? quiz.Reponses.join(', ') : 'No answers available'}</p>
-                        <p className="quiz-info">Correct Answer: {quiz.Reponse_correcte}</p>
-                        <p className="quiz-info">Chapter: {quiz.Chapitre}</p>
+                        
+                        <p className="quiz-question">Question: {quiz.question}</p>
+                        <p className="quiz-info">Answers: {quiz.responses ? quiz.responses.join(', ') : 'No answers available'}</p>
+                        <p className="quiz-info">Correct Answer: {quiz.correct_response}</p>
+                        <p className="quiz-info">Chapter: {quiz.chaptername}</p>
                         <div className="quiz-actions">
-                            <button className="button calculate-btn" onClick={() => calculateFalsePercentage(quiz._id)}>
-                                Calculate
-                            </button>
-                            {falsePercentages[quiz._id] !== undefined && (
-                                <p>False Percentage: {falsePercentages[quiz._id]}%</p>
-                            )}
+                         
                             <div className="buttons">
-                                <Link to={`/enseignant/enseignant/EditQuizEnseignant/${quiz._id}`}>
+                                <Link to={`enseignant/EditQuizEnseignant/${quiz._id}`}>
                                     <button className="button edit-btn">
                                         <span role="img" aria-label="Edit">✏️</span>
                                     </button>

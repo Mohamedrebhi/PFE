@@ -259,7 +259,7 @@ function Home() {
                       />
                       <ul className={`${styles['blog-meta']}`}>
                         <li>
-                          <span className={`${styles['meta-value']} ${styles['mx-1']}`}>by</span> <a href="#author">{course.Professor_Name}</a>
+                          <span className={`${styles['meta-value']} ${styles['mx-1']}`}>by</span> <a href="#author">{course.Name_Professor}</a>
                         </li>
                         <li>
                           <span className={`${styles['meta-value']} ${styles['mx-1']}`}>in</span> <a href="#author">{course.Name}</a>

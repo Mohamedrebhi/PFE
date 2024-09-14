@@ -49,6 +49,7 @@ const NavRight = () => {
       }))
     );
   };
+  
 
   const clearAllNotifications = () => {
     setNotifications([]); // Effacer toutes les notifications
@@ -171,11 +172,11 @@ const NavRight = () => {
             <Dropdown.Menu align="end" className="profile-notification">
               <div className="pro-head">
                 <img src={avatar1} className="img-radius" alt="User Profile" />
-                <span>John Doe</span>
-                <Link to="#" className="dud-logout" title="Logout">
-                  <i className="feather icon-log-out" />
-                </Link>
-              </div>
+                <span>marouane</span>
+                <Dropdown.Item as={Link} to="/login" onClick={() => console.log('Logout clicked!')}>
+                  <i className="feather icon-log-out" /> Logout
+                </Dropdown.Item>
+             </div>
               <ListGroup as="ul" bsPrefix=" " variant="flush" className="pro-body">
                 <ListGroup.Item as="li" bsPrefix=" ">
                   <a href="/setting.js" className="dropdown-item">
@@ -198,7 +199,7 @@ const NavRight = () => {
                   </Link>
                 </ListGroup.Item>
                 <ListGroup.Item as="li" bsPrefix=" ">
-                  <Link to="#" className="dropdown-item">
+                  <Link to="/home" className="dropdown-item">
                     <i className="feather icon-log-out" /> Logout
                   </Link>
                 </ListGroup.Item>

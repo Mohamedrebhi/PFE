@@ -64,7 +64,7 @@ def add_user():
     email = data.get('email')
     password = data.get('password')
     PhoneNumber = data.get('PhoneNumber')
-    level = data.get('level')
+    Level = data.get('level')
     specialty = data.get('specialty')
 
 
@@ -78,7 +78,7 @@ def add_user():
         "email": email,
         "password": password,
         "PhoneNumber": PhoneNumber,
-        "level": level,
+        "level": Level,
         "specialty": specialty,
 
 
@@ -307,7 +307,7 @@ def reset_password():
         # Return failure message if email is not found
         return jsonify({'success': False, 'message': 'Email not found in the database. Please enter a valid email address associated with an account.'})
 
-import bcrypt
+
 from datetime import datetime
 '''@app.route('/signup', methods=['POST'])
 def signup():
@@ -355,12 +355,12 @@ def signup():
             return jsonify({'success': False, 'message': 'User already exists'}), 400
 
         # Hasher le mot de passe
-        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+        #hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
         user_data = {
             'username': username,
             'email': email,
-            'password': hashed_password,
+            'password': password,
             'Dateinscri': datetime.now()
         }
 

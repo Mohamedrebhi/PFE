@@ -52,15 +52,15 @@ const QuizDetail = () => {
                 <div className="quiz-content">
                     {quizz.map((quiz) => (
                         <div className='quiz-card' key={quiz._id}> {/* Utilisation d'un identifiant unique */}
-                            <h3 className="quiz-question">Quiz sujet: {quiz.Subject}</h3>
-                            <p className="quiz-info">Chapitre: {quiz.Chapitre}</p>
-                            <h3 className="quiz-question">{quiz.Question}</h3>
+                            
+                            <p className="quiz-info">Chapitre: {quiz.chaptername}</p>
+                            <h3 className="quiz-question">{quiz.quizzuestion}</h3>
                             <ul className="quiz-answers">
-                                {quiz.Reponses.map((reponse, index) => (
-                                    <li key={index}>{reponse}</li>
+                                {quiz.responses.map((response, index) => (
+                                    <li key={index}>{response}</li>
                                 ))}
                             </ul>
-                            <p className="quiz-info">Réponse correcte: {quiz.Reponse_correcte}</p>
+                            <p className="quiz-info">Réponse correcte: {quiz.correct_response}</p>
                         </div>
                     ))}
                 </div>

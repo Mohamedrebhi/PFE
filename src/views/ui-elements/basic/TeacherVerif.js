@@ -11,7 +11,7 @@ function AdminPage() {
 
   const fetchTeachers = async () => {
     try {
-      const response = await fetch('http://localhost:1600/enseignants');
+      const response = await fetch('http://localhost:200/enseignants');
       if (!response.ok) {
         throw new Error('Failed to fetch enseignants');
       }
@@ -22,45 +22,50 @@ function AdminPage() {
     }
   };
 
-  const acceptRequest = async (_id) => {
+  const acceptRequest = async (username) => {
     try {
-      const response = await fetch(`http://localhost:600/users/${_id}`, {
+      const response = await fetch(`http://localhost:200/enseignants/action`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ state: 'accepter' })
+        body: JSON.stringify({ username: username, action: 'accept' }) // Use 'accept' action with username
       });
       if (!response.ok) {
         throw new Error('Failed to accept request');
       }
+      // Update the state by filtering out the accepted teacher by username
       setTeachers((prevTeachers) =>
-        prevTeachers.filter((teacher) => teacher._id !== _id)
+        prevTeachers.filter((teacher) => teacher.username !== username)
       );
     } catch (error) {
       console.error('Error accepting request:', error);
     }
   };
-
-  const rejectRequest = async (_id) => {
+  
+  const rejectRequest = async (username) => {
     try {
-      const response = await fetch(`http://localhost:600/users/${_id}`, {
+      const response = await fetch(`http://localhost:200/enseignants/action`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ state: 'refuser' })
+        body: JSON.stringify({ username: username, action: 'delete' }) // Use 'delete' action with username
       });
       if (!response.ok) {
         throw new Error('Failed to reject request');
       }
+      // Update the state by filtering out the rejected teacher by username
       setTeachers((prevTeachers) =>
-        prevTeachers.filter((teacher) => teacher._id !== _id)
+        prevTeachers.filter((teacher) => teacher.username !== username)
       );
     } catch (error) {
       console.error('Error rejecting request:', error);
     }
   };
+  
+  
+  
 
   return (
     <Col xs={12}>
@@ -75,8 +80,7 @@ function AdminPage() {
                 <th>ProfessorID</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Phone Number</th>
-                <th>Specialty</th>
+              
                 <th>Actions</th>
               </tr>
             </thead>
@@ -86,11 +90,10 @@ function AdminPage() {
                   <td>{teacher.ProfessorID}</td>
                   <td>{teacher.username}</td>
                   <td>{teacher.email}</td>
-                  <td>{teacher.PhoneNumber}</td>
-                  <td>{teacher.Speacialty}</td>
+                
                   <td>
-                    <button className="label theme-bg2 text-white f-12"  onClick={() => acceptRequest(teacher._id)}>Accepter</button>
-                    <button className="label theme-bg text-white f-12"  onClick={() => rejectRequest(teacher._id)}>Refuser</button>
+                  <button className="label theme-bg2 text-white f-12" onClick={() => acceptRequest(teacher.username)}>Accepter</button>
+                  <button className="label theme-bg text-white f-12" onClick={() => rejectRequest(teacher.username)}>Refuser</button>
                   </td>
                 </tr>
               ))}

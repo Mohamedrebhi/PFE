@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
+
 import './quizedit.css'
-
-
 const QuizEdit = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
-    const [quizData, setQuizData] = useState(null); // Store quiz data as an object
+    const [quizData, setQuizData] = useState({
+        quizID: '',
+        question: '',
+        responses: ['', '', '', ''],
+        correctResponse: '',
+        chapterName: ''
+    });
 
-    // Fetch quiz data when quizID is set
     useEffect(() => {
-        if (quizData && quizData.quizID) {
-            fetch(`http://localhost:1050/quizzes/${quizData.quizID}`)
+        if (quizData.quizID) {
+            fetch('http://localhost:1050/quizzes/' + quizData.quizID)
                 .then(response => response.json())
                 .then(data => setQuizData({
                     ...data,
@@ -18,23 +22,15 @@ const QuizEdit = () => {
                 }))
                 .catch(error => console.error('Error fetching quiz data:', error));
         }
-    }, [quizData?.quizID]);
+    }, [quizData.quizID]);
 
-    // Handle search operation
     const handleSearch = () => {
-        fetch(`http://localhost:1050/search_quizzes?chaptername=${encodeURIComponent(searchTerm)}`)
+        fetch('http://localhost:1050/search_quizzes?question=' + searchTerm)
             .then(response => response.json())
-            .then(data => {
-                if (Array.isArray(data)) {
-                    setSearchResults(data);
-                } else {
-                    console.error('Unexpected response format:', data);
-                }
-            })
+            .then(data => setSearchResults(data))
             .catch(error => console.error('Error searching quizzes:', error));
     };
 
-    // Select quiz from search results
     const handleSelectQuiz = (quiz) => {
         setQuizData({
             quizID: quiz._id,
@@ -43,60 +39,37 @@ const QuizEdit = () => {
             correctResponse: quiz.correct_response,
             chapterName: quiz.chaptername
         });
-        setSearchResults([]); // Clear search results after selection
+        setSearchResults([]);
+        setSearchTerm('');
     };
 
-    // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Submit clicked');
-        
-        if (quizData && quizData.quizID) {
-            fetch(`http://localhost:1050/quizzes/update/${quizData.quizID}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    question: quizData.question,
-                    responses: quizData.responses,
-                    correct_response: quizData.correctResponse,
-                    chaptername: quizData.chapterName
-                })
+        fetch('http://localhost:1050/quizzes/' + quizData.quizID, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                question: quizData.question,
+                responses: quizData.responses,
+                correct_response: quizData.correctResponse,
+                chaptername: quizData.chapterName
             })
-            .then(response => {
-                console.log('Response Status:', response.status);
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    return response.text().then(text => {throw new Error(text)});
-                }
-            })
-            .then(data => {
-                console.log('Update response data:', data);
-                alert('Quiz updated successfully');
-            })
-            .then(data => {
-                alert('Quiz updated successfully');
-                // Optionally, refresh the quiz data
-                fetch(`http://localhost:1050/quizzes/${quizData.quizID}`)
-                    .then(response => response.json())
-                    .then(data => setQuizData(data))
-                    .catch(error => console.error('Error fetching updated quiz data:', error));
-            })
-            
-            .catch(error => {
-                console.error('Error updating quiz:', error);
-                alert('Failed to update quiz. Check console for details.');
-            });
-        }
-    };
-    
-    
-    // Handle reset operation
-    const handleReset = () => {
-        setQuizData(null); // Clear quiz data
+        })
+            .then(response => response.json())
+            .then(data => alert('Quiz updated successfully'))
+            .catch(error => console.error('Error updating quiz:', error));
     };
 
-    // Handle response change
+    const handleReset = () => {
+        setQuizData({
+            quizID: '',
+            question: '',
+            responses: ['', '', '', ''],
+            correctResponse: '',
+            chapterName: ''
+        });
+    };
+
     const handleResponseChange = (index, value) => {
         const updatedResponses = quizData.responses.map((r, i) => i === index ? value : r);
         setQuizData({ ...quizData, responses: updatedResponses });
@@ -112,34 +85,20 @@ const QuizEdit = () => {
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    placeholder="Search for quizzes by chapter name..."
+                    placeholder="Search for a quiz by question..."
                 />
                 <button type="button" onClick={handleSearch}>Search 🔍</button>
             </div>
 
             <ul className="search-results">
-                {searchResults.length > 0 ? (
-                    searchResults.map(quiz => (
-                        <li key={quiz._id} onClick={() => handleSelectQuiz(quiz)}>
-                            <strong>Question:</strong> {quiz.question}
-                            <br />
-                            <strong>Responses:</strong>
-                            <ul>
-                                {quiz.responses.map((response, index) => (
-                                    <li key={index}>{response}</li>
-                                ))}
-                            </ul>
-                            <strong>Correct Response:</strong> {quiz.correct_response}
-                            <br />
-                            <strong>Chapter:</strong> {quiz.chaptername}
-                        </li>
-                    ))
-                ) : (
-                    <li></li>
-                )}
+                {searchResults.map(quiz => (
+                    <li key={quiz._id} onClick={() => handleSelectQuiz(quiz)}>
+                        {quiz.question}
+                    </li>
+                ))}
             </ul>
 
-            {quizData && (
+            {quizData.quizID && (
                 <form onSubmit={handleSubmit} onReset={handleReset} className="quiz-edit-form">
                     <label htmlFor="question">Question</label>
                     <input
@@ -184,8 +143,8 @@ const QuizEdit = () => {
                     />
 
                     <div className="button-group">
-                        <button type="submit">Save ✔️</button>
-                        <button type="reset">Reset ❌</button>
+                        <button type="submit">Submit ✔️</button>
+                        <button type="reset">Cancel ❌</button>
                     </div>
                 </form>
             )}

@@ -137,7 +137,7 @@ def get_random_quizzes_by_chapter():
     # Select 20 random quizzes
     random_quizzes = list(quiz_collection.aggregate([
         {'$match': {'chapters': chapter_name}},
-        {'$sample': {'size': 20}}
+        {'$sample': {'size': 10}}
     ]))
 
     return jsonify(random_quizzes)

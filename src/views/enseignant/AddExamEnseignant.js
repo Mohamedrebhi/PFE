@@ -149,34 +149,38 @@ const AddExamFromQuiz = ({ ProfessorID }) => {
                 .filter(chapter => selectedChapters.includes(chapter.ChapterID))
                 .map(chapter => chapter.Name);
     
-            if (chapterNames.length === 0) {
-                alert('Please select at least one chapter.');
-                return;
-            }
+            //if (chapterNames.length === 0) {
+                ////alert('Please select at least one chapter.');
+                //return;
+            //}
     
-            const response = await fetch('http://localhost:800/generate-exam', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ chapterNames }),
-            });
+            // If you need to fetch or process data before redirecting, do it here
+            // For example:
+            // const response = await fetch('http://localhost:800/generate-exam', {
+            //     method: 'PUT',
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //     },
+            //     body: JSON.stringify({ chapterNames }),
+            // });
+            // if (response.ok) {
+            //     const data = await response.json();
+            //     // Use data if needed
+            // } else {
+            //     const errorData = await response.json();
+            //     console.error('Error fetching recommended exams:', errorData);
+            //     alert('Failed to generate exam.');
+            //     return;
+            // }
     
-            if (response.ok) {
-                const data = await response.json();
-                setRecommendedExams(data.quizzes);
-                setShowCourseModal(true);
-            } else {
-                const errorData = await response.json();
-                console.error('Error fetching recommended exams:', errorData);
-                alert('Failed to generate exam.');
-            }
+            // Redirect to the Streamlit page
+            window.location.href = 'http://localhost:8502/'; // Replace with your Streamlit app URL
         } catch (error) {
             console.error('Error fetching recommended exams:', error);
             alert('An error occurred. Please try again later.');
         }
     };
-
+    
     return (
         <div>
             <h2>Add Exam</h2>

@@ -185,7 +185,7 @@ const DashDefault = () => {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const response = await fetch('http://localhost:100/dashboard_data');
+        const response = await fetch('http://localhost:200/stats');
         const data = await response.json();
         setDashboardData(data);
       } catch (error) {
@@ -215,7 +215,7 @@ const DashDefault = () => {
   const dashSalesData = [
     { title: 'Total Students', Number: dashboardData.total_students },
     { title: 'New Students', Number: dashboardData.new_students, value: newStudentPercentage.toFixed(0)+'%' , class: 'progress-c-theme2' },
-    { title: 'Total Course', Number: dashboardData.total_courses }
+    { title: 'Total Courses', Number: dashboardData.total_courses }
   ];
 
   return (

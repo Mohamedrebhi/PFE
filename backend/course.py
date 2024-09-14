@@ -12,7 +12,8 @@ CORS(app, resources={r'/*': {"origins": "http://localhost:3000"}})
 
 client = MongoClient('mongodb://localhost:27017/')
 db = client["Users"]
-collection = db["Cours"]
+courses_collection = db["Cours"]
+chapters_collection = db["chapitres"]
 
 # Helper function to convert ObjectId to string
 def convert_object_ids(data):
@@ -29,7 +30,7 @@ def convert_object_ids(data):
 @app.route('/Cours', methods=['GET'])
 def get_courses():
     try:
-        courses = list(collection.find({}))
+        courses = list(courses_collection.find({}))
         formatted_courses = convert_object_ids(courses)
         return jsonify(formatted_courses), 200
     except Exception as e:
@@ -40,7 +41,7 @@ def get_courses():
 @app.route('/Cours/<course_id>', methods=['GET'])
 def get_course(course_id):
     try:
-        course = collection.find_one({"_id": ObjectId(course_id)})
+        course = courses_collection.find_one({"_id": ObjectId(course_id)})
         if course:
             formatted_course = convert_object_ids(course)
             return jsonify(formatted_course), 200
@@ -55,7 +56,7 @@ def get_course(course_id):
 def get_crs(StudentID):
     try:
         logging.info(f"Searching courses for StudentID: {StudentID}")
-        crs = list(collection.find({"StudentID": StudentID}))
+        crs = list(courses_collection.find({"StudentID": StudentID}))
         if crs:
             crs = convert_object_ids(crs)
             return jsonify(crs), 200
@@ -70,7 +71,7 @@ def get_crs(StudentID):
 @app.route('/Cours/professor/<int:ProfessorID>', methods=['GET'])
 def get_cours_by_professor(ProfessorID):
     try:
-        courses = list(collection.find({"ProfessorID": ProfessorID}))
+        courses = list(courses_collection.find({"ProfessorID": ProfessorID}))
         if courses:
             courses = convert_object_ids(courses)
             return jsonify(courses), 200
@@ -84,7 +85,7 @@ def get_cours_by_professor(ProfessorID):
 @app.route('/Modules/<int:CourseID>', methods=['GET'])
 def get_module(CourseID):
     try:
-        modules = list(collection.find({"CourseID": CourseID}))
+        modules = list(courses_collection.find({"CourseID": CourseID}))
         if modules:
             modules = convert_object_ids(modules)
             return jsonify(modules), 200
@@ -99,15 +100,17 @@ def get_module(CourseID):
 def add_course():
     try:
         data = request.json
-        collection.insert_one(data)
+        courses_collection.insert_one(data)
         return jsonify({"message": "Course added successfully"}), 201
     except Exception as e:
         logging.error(f"Error adding course: {e}")
         return jsonify({"error": str(e)}), 400
+
+# Route to delete a course
 @app.route('/Cours/<course_id>', methods=['DELETE'])
 def delete_course(course_id):
     try:
-        result = collection.delete_one({"_id": ObjectId(course_id)})
+        result = courses_collection.delete_one({"_id": ObjectId(course_id)})
         if result.deleted_count == 1:
             return jsonify({"message": "Course deleted successfully"}), 200
         else:
@@ -116,6 +119,29 @@ def delete_course(course_id):
         logging.error(f"Error deleting course {course_id}: {e}")
         return jsonify({"error": str(e)}), 500
 
+# Route to retrieve chapters by course name
+@app.route('/chapters', methods=['GET'])
+def get_chapters_by_course_name():
+    course_name = request.args.get('course_name')
+    
+    if not course_name:
+        return jsonify({'error': 'No course name provided'}), 400
+
+    try:
+        course = courses_collection.find_one({"Name": course_name})
+        if not course:
+            return jsonify({'error': 'Course not found'}), 404
+
+        course_id = course.get('_id')
+        chapters = list(chapters_collection.find({"CourseID": str(course_id)}))
+        if chapters:
+            chapters = convert_object_ids(chapters)
+            return jsonify(chapters), 200
+        else:
+            return jsonify({'message': 'No chapters found for this course.'}), 404
+    except Exception as e:
+        logging.error(f"Error retrieving chapters for course {course_name}: {e}")
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True, port=400)

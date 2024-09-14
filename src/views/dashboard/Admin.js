@@ -31,7 +31,7 @@ const DashDefault = () => {
 
     const fetchEnseignants = async () => { // Fonction pour récupérer les enseignants
       try {
-        const response = await fetch('http://localhost:600/enseignants'); // Mettez l'URL correcte de votre backend
+        const response = await fetch('http://localhost:200/enseignants'); // Mettez l'URL correcte de votre backend
         const data = await response.json();
         setEnseignants(data);
       } catch (error) {
@@ -50,8 +50,8 @@ const DashDefault = () => {
     : 0;*/
 
   const dashSalesData = [
-    { title: 'Total Students', Number: 4 },
-    { title: 'Total Teachers', Number: 3 }, // Remplacer New Students par Total Teachers
+    { title: 'Total Students', Number: 2 },
+    { title: 'Total Teachers', Number: 2 }, // Remplacer New Students par Total Teachers
     { title: 'Total Course', Number: 3 },
   ];
 
@@ -109,8 +109,6 @@ const EnseignantList = ({ enseignants }) => { // Nouveau composant pour afficher
                 <th>No</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>PhoneNumber</th>
-                
               </tr>
             </thead>
             <tbody>
@@ -119,8 +117,6 @@ const EnseignantList = ({ enseignants }) => { // Nouveau composant pour afficher
                   <td>{index + 1}</td>
                   <td>{enseignant.username}</td>
                   <td>{enseignant.email}</td>
-                  <td>{enseignant.PhoneNumber}</td>
-                 
                 </tr>
               ))}
             </tbody>

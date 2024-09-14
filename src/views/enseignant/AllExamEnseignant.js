@@ -34,129 +34,108 @@ const ExamDetail = () => {
     useEffect(() => {
         const fetchExamens = async () => {
             try {
-                const response = await axios.get(`http://localhost:800/examens`);
+                const response = await axios.get('http://localhost:800/examens'); // Make sure this URL is correct
                 setExamens(response.data);
-                setFilteredExams(response.data); // Initialize filtered exams with all exams
-            } catch (err) {
-                console.error('Error fetching examens:', err);
+                setFilteredExams(response.data);
+            } catch (error) {
+                console.error('Error fetching examens:', error);
             }
         };
+
         fetchExamens();
-    }, [ProfessorID]);
+    }, []);
 
     useEffect(() => {
-        handleSearch(); // Perform search when searchTerm changes
-    }, [searchTerm]);
-
-    const handleSearch = () => {
-        const searchTermLowerCase = searchTerm.toLowerCase();
-        const filteredResults = examens.filter(examen => {
-            const name = examen.name ? examen.name.toLowerCase() : '';
-            const date = examen.examenDate ? new Date(examen.examenDate).toLocaleDateString().toLowerCase() : '';
-            const subject = examen.subject ? examen.subject.toLowerCase() : '';
-            return (name.includes(searchTermLowerCase) || date.includes(searchTermLowerCase) || subject.includes(searchTermLowerCase));
-        });
-        setFilteredExams(filteredResults);
-    };
-
-    const handleDeleteExamen = async () => {
-        if (!examToDelete) return;
-    
-        try {
-            const response = await fetch(`http://localhost:800/examen/${examToDelete._id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-    
-            if (!response.ok) {
-                throw new Error(`Error deleting examen: ${response.statusText}`);
-            }
-    
-            // If successful, update the state of exams
-            setExamens(examens.filter(examen => examen._id !== examToDelete._id));
-            setFilteredExams(filteredExams.filter(examen => examen._id !== examToDelete._id));
-            setShowConfirmation(false);
-            setExamToDelete(null);
-        } catch (error) {
-            console.error('Error deleting examen:', error);
+        if (searchTerm) {
+            setFilteredExams(
+                examens.filter((examen) =>
+                    examen.Name.toLowerCase().includes(searchTerm.toLowerCase())
+                )
+            );
+        } else {
+            setFilteredExams(examens);
         }
-    };
+    }, [searchTerm, examens]);
 
-    const handleDeleteConfirmation = (examen) => {
-        setExamToDelete(examen);
+    const handleDelete = (examId) => {
+        setExamToDelete(examId);
         setShowConfirmation(true);
     };
 
-    const handleCancelConfirmation = () => {
-        setShowConfirmation(false);
-        setExamToDelete(null);
+    const confirmDelete = async () => {
+        try {
+            await axios.delete(`http://localhost:800/examens/${examToDelete}`);
+            setExamens(examens.filter((examen) => examen._id !== examToDelete));
+            setFilteredExams(filteredExams.filter((examen) => examen._id !== examToDelete));
+        } catch (error) {
+            console.error('Error deleting examen:', error);
+        } finally {
+            setShowConfirmation(false);
+            setExamToDelete(null);
+        }
     };
 
-    const handleEdit = (examen) => {
-        console.log("Edit examen:", examen);
+    const handleSearch = (event) => {
+        setSearchTerm(event.target.value);
     };
 
     return (
-        <div className="exam-list-container">
-            <Col xs={12}>
-                <Card className="user-list">
-                    <Card.Header>
-                        <Card.Title as="h5">Exam List</Card.Title>
-                    </Card.Header><br />
-                    <div className="search-container">
+        <Col>
+            <Card className="shadow-sm">
+                <Card.Body>
+                    <div className="search-bar">
                         <input
                             type="text"
-                            className="search-input"
-                            placeholder="Search..."
+                            placeholder="Search by exam name"
                             value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
+                            onChange={handleSearch}
                         />
                     </div>
-                    <Card.Body className="p-0">
-                        <Table responsive hover>
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Subject</th>
-                                    <th>Date</th>
-                                    <th>Duration in minutes</th>
-                                    <th>Content</th>
-                                    <th>Actions</th>
+                    <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                                <th>Exam Name</th>
+                                <th>Exam Date</th>
+                                <th>Subject</th>
+                                <th>Max Score</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {filteredExams.map((examen) => (
+                                <tr key={examen._id}>
+                                    <td>{examen.Name}</td>
+                                    <td>{new Date(examen.examenDate).toLocaleDateString()}</td>
+                                    <td>{examen.subject}</td>
+                                    <td>{examen.maxScore}</td>
+                                    <td>
+                                        <button
+                                            className="btn btn-primary"
+                                            onClick={() => window.open(`http://localhost:800/examens/content/${examen.Name}`, '_blank')}
+                                        >
+                                            View Exam
+                                        </button>
+                                        <button
+                                            className="btn btn-danger"
+                                            onClick={() => handleDelete(examen._id)}
+                                        >
+                                            Delete
+                                        </button>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                {(searchTerm === '' ? filteredExams : filteredExams).map(examen => (
-                                    <tr key={examen._id}>
-                                        <td>{examen.Name}</td>
-                                        <td>{examen.subject}</td>
-                                        <td>{examen.examenDate ? new Date(examen.examenDate).toLocaleDateString() : 'N/A'}</td>
-                                        <td>{examen.Duration}</td>
-                                        <td>{examen.Contenu}</td>
-                                        <td>
-                                            <button onClick={() => handleEdit(examen)}>
-                                                <span role="img" aria-label="Edit">✏️</span>
-                                            </button>
-                                            <button onClick={() => handleDeleteConfirmation(examen)}>
-                                                <span role="img" aria-label="Delete">🗑️</span>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </Table>
-                    </Card.Body>
-                </Card>
-            </Col>
-            {showConfirmation && (
-                <ConfirmationModal
-                    message="Are you sure you want to delete this exam?"
-                    onConfirm={handleDeleteExamen}
-                    onCancel={handleCancelConfirmation}
-                />
-            )}
-        </div>
+                            ))}
+                        </tbody>
+                    </Table>
+                    {showConfirmation && (
+                        <ConfirmationModal
+                            message="Are you sure you want to delete this examen?"
+                            onConfirm={confirmDelete}
+                            onCancel={() => setShowConfirmation(false)}
+                        />
+                    )}
+                </Card.Body>
+            </Card>
+        </Col>
     );
 };
 

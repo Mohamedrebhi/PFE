@@ -64,11 +64,13 @@ const menuItems = {
           icon: 'feather icon-layers',
           children: [
             {
-              id: 'Add chapter',
-              title: 'View Recommandation',
+              id: 'View Recommendation',
+              title: 'View Recommendation',
               type: 'item',
-              url: '/enseignant/enseignant/RecommandechapterEnseignant'
+              url: 'http://localhost:8503', // Replace with your Streamlit app URL
+              external: true, // Ensures the link opens in a new tab
             },
+          
             {
               id: 'Add Chapter',
               title: 'Add Chapter',
@@ -97,24 +99,19 @@ const menuItems = {
             type: 'item',
             url: '/enseignant/enseignant/QuizAddEnseignant'
           },
-          /*{
+          {
             id: 'Edit quiz',
             title: 'Edit Question',
             type: 'item',
-            url: '/basic/QuizEdit'
-          },*/
+            url: 'enseignant/EditQuizEnseignant'
+          },
           {
             id: 'All quizs',
             title: 'All Quizs',
             type: 'item',
             url: '/enseignant/enseignant/QuizListEnseignant'
           },
-          {
-            id: 'Recommande quizs',
-            title: 'Recommande Quizs',
-            type: 'item',
-            url: '/enseignant/enseignant/RecommandeQuiz'
-          },
+          
 
         
       ]

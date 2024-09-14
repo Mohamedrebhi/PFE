@@ -8,7 +8,7 @@ const QuizListPage = () => {
     const [incorrectAnswers, setIncorrectAnswers] = useState([]);
     
     useEffect(() => {
-        fetch('http://127.0.0.1:100/quizzes/random/20') // Fetch 20 random quizzes
+        fetch('http://127.0.0.1:1050/quizzes/random/20') // Fetch 20 random quizzes
             .then(response => response.json())
             .then(data => setQuizzes(data))
             .catch(error => console.error('Error fetching quizzes:', error));
@@ -21,7 +21,7 @@ const QuizListPage = () => {
     };
 
     const handleSubmit = () => {
-        fetch('http://127.0.0.1:100/quizzes/submit', {
+        fetch('http://127.0.0.1:1050/quizzes/submit', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -43,18 +43,18 @@ const QuizListPage = () => {
             {quizzes.map((quiz, index) => (
                 <div key={index} className="quiz-item">
                     <h3>Question {index + 1}</h3>
-                    <p>{quiz.Question}</p>
+                    <p>{quiz.question}</p>
                     <div className="answers">
-                        {(quiz.Reponses || []).map((reponse, idx) => (
+                        {(quiz.responses || []).map((response, idx) => (
                             <div key={idx}>
                                 <input
                                     type="radio"
                                     id={`Reponse${idx}`}
                                     name={`quiz${index}`}
-                                    value={reponse}
-                                    onChange={() => handleAnswerChange(quiz._id, reponse)}
+                                    value={response}
+                                    onChange={() => handleAnswerChange(quiz._id, response)}
                                 />
-                                <label htmlFor={`Reponse${idx}`}>{reponse}</label>
+                                <label htmlFor={`Reponse${idx}`}>{response}</label>
                             </div>
                         ))}
                     </div>
